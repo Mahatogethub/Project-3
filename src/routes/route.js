@@ -1,5 +1,7 @@
 const express=require('express')
+const userController=require("../controller/userController")
 const router=express.Router()
+
 
 
 router.get("/demo/:name",function(req,res){
@@ -7,6 +9,11 @@ router.get("/demo/:name",function(req,res){
     console.log(a)
     res.send("done")
 })
+
+
+router.post("/register",userController.signUp)
+router.post("/login",userController.loginUser)
+router.post("/demo2",userController.demo)
 
 
 
