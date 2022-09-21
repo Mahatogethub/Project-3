@@ -1,5 +1,6 @@
 const express=require('express')
 const userController=require("../controller/userController")
+const bookController=require("../controller/bookController")
 const router=express.Router()
 
 
@@ -14,6 +15,7 @@ router.get("/demo/:name",function(req,res){
 router.post("/register",userController.signUp)
 router.post("/login",userController.loginUser)
 router.post("/demo2",userController.demo)
+router.post("/books",bookController.createBook)
 
 
 

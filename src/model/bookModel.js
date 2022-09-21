@@ -1,16 +1,17 @@
 const mongoose=require("mongoose")
+const moment=require("moment")
 const ObjectId = mongoose.Schema.Types.ObjectId
 
 
 const bookModel=new mongoose.Schema(
     { 
         title: {
-            type:string, 
+            type:String, 
             required:true, 
             unique:true
         },
         excerpt: {
-            type:string, 
+            type:String, 
             required:true}, 
         userId: {
             type:ObjectId,
@@ -18,16 +19,16 @@ const bookModel=new mongoose.Schema(
             required:true,
         },
         ISBN: {
-            type:string, 
+            type:String, 
             required:true,
              unique:true
             },
         category: {
-            type:string,
+            type:String,
              required:true
             },
         subcategory:{
-           type:[string], 
+           type:[String], 
            required:true
         } ,
         reviews: {
@@ -36,13 +37,14 @@ const bookModel=new mongoose.Schema(
             comment:String},
         deletedAt: Date, 
         isDeleted: {
-            type:boolean,
+            type:Boolean,
              default: false
             },
         releasedAt: {
             type:Date,
+            
             required:true, 
-            // format("YYYY-MM-DD")
+            
         },
         
       },{timestamps:true}
