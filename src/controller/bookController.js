@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-const bookModel=require('../model/bookModel')
-=======
 const mongoose=require('mongoose')
 const bookModel=require('../model/bookModel')
 const userModel = require('../model/userModel')
@@ -54,44 +51,30 @@ catch(error){
 // get book
 
 
->>>>>>> f8d59670a309fa9170eb2d197146d513dd22d54b
 
 const getBooks=async function(req,res){
     try{
         //InAlphabital=req.
     obj={isDeleted:false}
    const {userId,category,subcategory}=req.query
-<<<<<<< HEAD
-=======
   
->>>>>>> f8d59670a309fa9170eb2d197146d513dd22d54b
    
    if(userId){obj.userId=userId}
    //if(!bookId){return res.status(400).send({status:false,message:""})}
    if(category){obj.category=category}
    if(subcategory){obj.subcategory=subcategory}
   // arr = elements.sort((a, b) => a.localeCompare(b));
-<<<<<<< HEAD
-  let showData=await bookModel.find(obj)
-  if(showData.length=0){ 
-    return res.status(400).send({status:false,message:"Please provide filter"})
-  }
-  return res.status(200).send({status:true,message:showData})
-=======
   let showData=await bookModel.find(obj).select({ title:1, excerpt:1, userId:1, category:1, releasedAt:1, reviews:1})
   if(showData.length==0){ 
     return res.status(400).send({status:false,message:"data not found"})
   }
   return res.status(200).send({status:true,message:"list book" , data:showData})
->>>>>>> f8d59670a309fa9170eb2d197146d513dd22d54b
 }
   catch(err){
     return res.status(500).send({status:false,message:err.message})
   }
 }
 
-<<<<<<< HEAD
-=======
 
 
 
@@ -173,5 +156,4 @@ const DeleteBook=async function(req,res)
 module.exports.DeleteBook=DeleteBook
 module.exports.updateBook=updateBook
 module.exports.createBook=createBook
->>>>>>> f8d59670a309fa9170eb2d197146d513dd22d54b
 module.exports.getBooks=getBooks
