@@ -1,7 +1,7 @@
 const express=require('express')
 const mongoose=require('mongoose')
 const bodyParser=require('body-parser')
-const { application } = require('express')
+//const { application } = require('express')
 const route=require('./routes/route')
 
 const app=express()
