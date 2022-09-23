@@ -42,7 +42,6 @@ const bookModel=new mongoose.Schema(
             },
         releasedAt: {
             type:Date,
-            
             required:true, 
             
         },

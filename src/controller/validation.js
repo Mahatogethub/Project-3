@@ -42,5 +42,18 @@ const name=function(name){
         return false
       }
 
+      const isbn=function(name){
+        if(/^(?:ISBN(?:-13)?:?\ )?(?=[0-9]{13}$|(?=(?:[0-9]+[-\ ]){4})[-\ 0-9]{17}$)97[89][-\ ]?[0-9]{1,5}[-\ ]?[0-9]+[-\ ]?[0-9]+[-\ ]?[0-9]$/.test(name.trim())) return true
+        return false
+      }
+      
+      const date=function(date){
+        if(/^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/.test(date)) return true
+        return false
+      }
+      const rating=function(rating){
+        if(/^[1-5]{1}$/.test(rating)) return true
+        return false
+      }
 
-    module.exports.valid={body,email,mobile,name,titleValid,password,address,pincode}
+    module.exports.valid={body,email,mobile,name,titleValid,password,address,pincode,isbn,date,rating}

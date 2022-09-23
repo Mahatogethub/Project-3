@@ -61,7 +61,6 @@ if(reqData.address.pincode){
 
    const output=await userSchema.create(reqData)
    res.status(201).send({ status: true,message: 'Success',data: output})
-
 }
 
 
@@ -87,6 +86,7 @@ const loginUser=async function(req,res){
   },
     "functionUp"
   )
+  res.setHeader("x-api-token",token)
 return res.status(200).send({status:true,data:token})
 }
 catch(err){
