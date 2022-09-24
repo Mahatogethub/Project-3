@@ -34,7 +34,7 @@ const bookModel=new mongoose.Schema(
         reviews: {
             type:Number, 
             default: 0, 
-            comment:String},
+            },
         deletedAt: Date, 
         isDeleted: {
             type:Boolean,
@@ -42,7 +42,7 @@ const bookModel=new mongoose.Schema(
             },
         releasedAt: {
             type:Date,
-            required:true, 
+            required:true, // format("YYYY-MM-DD")
             
         },
         

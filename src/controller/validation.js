@@ -56,4 +56,9 @@ const name=function(name){
         return false
       }
 
-    module.exports.valid={body,email,mobile,name,titleValid,password,address,pincode,isbn,date,rating}
+      const str=function(name){
+        if(/^^(.|\s)*([a-zA-Z]{2,1000})+(.|\s)*$/.test(name.trim())) return true
+        return false
+      }
+
+    module.exports.valid={body,email,mobile,name,titleValid,password,address,pincode,isbn,date,rating,str}
