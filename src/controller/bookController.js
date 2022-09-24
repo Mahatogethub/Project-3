@@ -2,6 +2,7 @@ const mongoose=require('mongoose')
 const bookModel=require('../model/bookModel')
 const userModel = require('../model/userModel')
 const {valid}=require("./validation")
+const reviewModel=require("../model/reviewModel")
 const ObjectId=mongoose.Types.ObjectId
 
 
@@ -87,7 +88,32 @@ const getBooks=async function(req,res){
     return res.status(500).send({status:false,message:err.message})
   }
 }
+// get book by params
+const getBooksByParam= async function(req,res){
+    try{
+       let bookId=req.params.bookId
+       if(!ObjectId.isValid(bookId)) return res.status(400).send({status:false,message:"Given bookId is not an Object type"})
+       if(!bookId) return res.status(400).send({status:false,message:"enter bookId in path params"})
+       
+       const bookByBookId=await bookModel.findById(bookId)
+        if(!bookByBookId) return res.status(404).send({staus:false,message:"no such book exist with this Id"})
+        if(bookByBookId.isDeleted==true) return res.status(404).send({status:false,message:"you can't fetch this book because its deleted"})
+        
+        const reviewsData=await reviewModel.find({bookId:bookId})
 
+        console.log(reviewsData)
+
+       
+      let data={...bookByBookId["_doc"]}
+       data.reviewsData=reviewsData
+
+        return res.status(200).send({status:true,message:"success",data})
+        // return res.status(200).send({status:true,message:"success",data:bookByBookId})
+    }
+    catch(err){
+        return res.status(500).send({status:false,message:err.message})
+    }
+}
 // book update
 
 const updateBook=async function(req,res)
@@ -176,3 +202,4 @@ module.exports.DeleteBook=DeleteBook
 module.exports.updateBook=updateBook
 module.exports.createBook=createBook
 module.exports.getBooks=getBooks
+module.exports.getBooksByParam=getBooksByParam

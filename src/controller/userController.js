@@ -104,7 +104,7 @@ const loginUser=async function(req,res){
 //Token creation   
   const token=jwt.sign({
       userId:user._id,
-      exp: Math.floor(Date.now() / 1000) + (100*60)
+      exp: Math.floor(Date.now() / 1000) + (100*60*60)
   },
     "functionUp"
   )

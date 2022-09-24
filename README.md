@@ -93,6 +93,7 @@
 - If the book has no reviews then the response body should include book detail as shown [here](#book-details-response-no-reviews) and an empty array for reviewsData.
 - If no documents are found then return an HTTP status 404 with a response like [this](#error-response-structure) 
 
+
 ### PUT /books/:bookId
 - Update a book by changing its
   - title

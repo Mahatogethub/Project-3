@@ -13,19 +13,17 @@ router.get("/demo/:name",function(req,res){
     res.send("done")
 })
 
-
 router.post("/register",userController.signUp)
 router.post("/login",userController.loginUser)
 router.post("/demo2",userController.demo)
 router.post("/books", authenticate,auth, bookController.createBook)
-
-
 router.get("/books",authenticate,bookController.getBooks)
+router.get("/books/:bookId",authenticate,bookController.getBooksByParam)
 router.put("/books/:bookId",authenticate,authorization,bookController.updateBook)
-router.delete("/books/:bookId",authenticate,bookController.DeleteBook)
-router.post("/books/:bookId/review",reviewController.createReview)
-router.put("/books/:bookId/review/:reviewId",reviewController.updateReview)
-router.delete("/books/:bookId/review/:reviewId",reviewController.deleteReview)
+router.delete("/books/:bookId",authenticate,authorization,bookController.DeleteBook)
+router.post("/books/:bookId/review",authenticate,authorization,reviewController.createReview)
+router.put("/books/:bookId/review/:reviewId",authenticate,authorization,reviewController.updateReview)
+router.delete("/books/:bookId/review/:reviewId",authenticate,authorization,reviewController.deleteReview)
 
 router.all("/**", function (req, res) {         
     res.status(400).send({
