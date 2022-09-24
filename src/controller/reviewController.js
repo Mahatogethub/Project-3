@@ -44,6 +44,8 @@ const createReview = async function (req, res) {
 }
 
 
+
+
 // update review
 
 const updateReview = async function (req, res) {
@@ -96,7 +98,7 @@ const deleteReview = async function (req, res) {
         const bookByBookId = await bookModel.findOne({ _id: bookId, isDeleted: false })
         if (!bookByBookId) return res.status(404).send({ staus: false, msg: "no such book exist with this Id or it is deleted" })
 
-        const ReviewByReviewId = await bookModel.findOne({ _id: reviewId, isDeleted: false })
+        const ReviewByReviewId = await reviewModel.findOne({ _id: reviewId, isDeleted: false })
         if (!ReviewByReviewId) return res.status(404).send({ staus: false, msg: "no such review exist with this ReviewId or it is deleted" })
 
         const alreadyReviewed = await reviewModel.findOne({ bookId: bookId })
@@ -104,6 +106,8 @@ const deleteReview = async function (req, res) {
         if (!alreadyReviewed) return res.status(400).send({ status: false, message: "no review is found by you to update, first make a review than update" })
 
         const updatedReview = await reviewModel.findOneAndUpdate({ bookId: bookId, isDeleted: false }, { $set: { isDeleted: true } }, { new: true })
+
+       // return res.status(200).send({ status: true, message: "successfully deleted", data: updateReview})
 
         const bookdata = await bookModel.findOneAndUpdate({ _id: bookId }, { $inc: { reviews: -1 } }, { new: true })
 

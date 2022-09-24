@@ -3,10 +3,10 @@ const jwt=require("jsonwebtoken")
 const authentication=function(req,res,next){
     try{
         let Headers=req.headers
-        let token =Headers["x-token-key"];
-        if(!Headers){
-            return res.status(400).send({status:false,message:"Headers must be present"})
-        }
+        let token =Headers["x-api-token"];
+        // if(Object.keys(req.body).length==0){
+        //     return res.status(400).send({status:false,message:"Headers must be present"})
+        // }
         //let token =Headers["x-token-key"];
         if(!token){
             return res.status(404).send({status:false,message:"token must be present"});

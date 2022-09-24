@@ -1,8 +1,8 @@
 const jwt=require("jsonwebtoken")
 const userSchema=require("../model/userModel")
+
 const {valid}=require("./validation")
 const moment=require("moment")
-
 
 
 const signUp=async function(req,res){
@@ -69,13 +69,18 @@ if(reqData.address.pincode){
 
 const loginUser=async function(req,res){
   try{
+    
   const userEmail=req.body.email;
   const passWord=req.body.password;
-  if(!req.body) return res.status(400).send({status:false,msg:"body should not be empty"})
+  if(!Object.keys(req.body)) return res.status(400).send({status:false,msg:"body should not be empty"})
+
   if(!userEmail) return  res.status(400).send({status:false,message:"please provid email"})
+
   if(!passWord) return  res.status(400).send({status:false,message:"please provid password"})
+
   const user=await userSchema.findOne({email:userEmail})
   if(!user) return res.status(400).send({status:false,message:"Please provide valid email"})
+
   const getPassword=await userSchema.findOne({password:passWord})
   if(!getPassword) return res.status(400).send({status:false,message:"Please provide correct password"})
   

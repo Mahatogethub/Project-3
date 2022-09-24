@@ -1,6 +1,8 @@
 const mongoose=require('mongoose')
 const bookModel=require('../model/bookModel')
+const { find } = require('../model/userModel')
 const userModel = require('../model/userModel')
+const reviewModel=require("../model/reviewModel")
 const {valid}=require("./validation")
 const ObjectId=mongoose.Types.ObjectId
 
@@ -28,7 +30,7 @@ try{
         
         
         const createData=await userModel.findOne({_id:userId})
-        if(!createData) return res.status(400).send({status:false,msg:"UserId is not present"})
+        if(!createData) return res.status(400).send({status:false,msg:"UserId is not valid"})
 
         const bookbytitle=await bookModel.findOne({title:data.title})
         if(bookbytitle) return res.status(400).send({status:false,msg:"title is already exist give another title"})
@@ -54,16 +56,17 @@ catch(error){
 
 const getBooks=async function(req,res){
     try{
-        //InAlphabital=req.
+       
     obj={isDeleted:false}
    const {userId,category,subcategory}=req.query
   
-   
+  
    if(userId){obj.userId=userId}
    //if(!bookId){return res.status(400).send({status:false,message:""})}
    if(category){obj.category=category}
    if(subcategory){obj.subcategory=subcategory}
   // arr = elements.sort((a, b) => a.localeCompare(b));
+ 
   let showData=await bookModel.find(obj).select({ title:1, excerpt:1, userId:1, category:1, releasedAt:1, reviews:1})
   if(showData.length==0){ 
     return res.status(400).send({status:false,message:"data not found"})
@@ -75,6 +78,32 @@ const getBooks=async function(req,res){
   }
 }
 
+const getBooksByParam= async function(req,res){
+    try{
+       let data=req.params.bookId
+       if(!data){
+        return res.status(400).send({status:false,message:"Give valid params"})
+       }
+     
+       let getData=await bookModel.findOne({isDeleted:false})
+       let getReviewData= await reviewModel.find({getData:getData._id,isDeleted:false})
+       return res.status(200).send({
+        status:true,
+        data:{
+            title: getData.title,
+            excerpt:getData.excerpt,
+            userId: getData.userId,
+            category: getData.userId,
+            reviews: getData.reviews,
+            reviewsData: getReviewData
+        }
+    })
+    }
+    catch(err){
+        return res.status(500).send({status:false,message:err.message})
+    }
+
+}
 
 
 
@@ -157,3 +186,4 @@ module.exports.DeleteBook=DeleteBook
 module.exports.updateBook=updateBook
 module.exports.createBook=createBook
 module.exports.getBooks=getBooks
+module.exports.getBooksByParam=getBooksByParam
