@@ -6,7 +6,7 @@ const moment=require("moment")
 
 
 const signUp=async function(req,res){
-
+   try{
    const  reqData=req.body
    if(!valid.body(reqData)) return res.status(400).send({
     status:false,message:"enter data in body"
@@ -14,17 +14,27 @@ const signUp=async function(req,res){
    
 
    // title
-   if(!reqData.title || !valid.titleValid(reqData.title)) return res.status(400).send({
+   if(!reqData.title) return res.status(400).send({
+    status:false,message:"title is mendatory"
+   })
+    
+    if(!valid.titleValid(reqData.title)) return res.status(400).send({
     status:false,message:"enter title among [Mr, Mrs, Miss]"
    })
  
    // name
-   if(!reqData.name || !valid.name(reqData.name)) return res.status(400).send({
+   if(!reqData.name) return res.status(400).send({
+    status:false,message:"name is mendatory"
+   })
+    if(!valid.name(reqData.name)) return res.status(400).send({
     status:false,message:"enter valid name"
    })
 
    // mobile
-   if(!reqData.phone || !valid.mobile(reqData.phone)) return res.status(400).send({
+   if(!reqData.phone) return res.status(400).send({
+    status:false,message:"mobile is mendatory"
+   })
+    if(!valid.mobile(reqData.phone)) return res.status(400).send({
     status:false,message:"enter valid phone number"
    })
 
@@ -32,14 +42,20 @@ const signUp=async function(req,res){
  if(getMobile) return res.status(400).send({status:false,messege:"enter new number "})
 
  // email
- if(!reqData.email || !valid.email(reqData.email)) return res.status(400).send({
+ if(!reqData.email) return res.status(400).send({
+  status:false,message:"email is mendatory"
+ })
+  if( !valid.email(reqData.email)) return res.status(400).send({
     status:false,message:"enter valid eamil"
    })
    const getEmail=await userSchema.findOne({email:reqData.email})
  if(getEmail) return res.status(400).send({status:false,messege:"enter new email "})
 
  // password
- if(!reqData.password || !valid.password(reqData.password)) return res.status(400).send({
+ if(!reqData.password) return res.status(400).send({
+  status:false,message:"password is mendatory"
+ })
+ if(!valid.password(reqData.password)) return res.status(400).send({
     status:false,message:"enter valid password"
    })
 
@@ -61,6 +77,9 @@ if(reqData.address.pincode){
 
    const output=await userSchema.create(reqData)
    res.status(201).send({ status: true,message: 'Success',data: output})
+}catch(error){
+  res.status(500).send({status:false,message: error.messege})
+}
 }
 
 
@@ -69,15 +88,14 @@ if(reqData.address.pincode){
 
 const loginUser=async function(req,res){
   try{
-    
+   
   const userEmail=req.body.email;
   const passWord=req.body.password;
-  if(!Object.keys(req.body)) return res.status(400).send({status:false,msg:"body should not be empty"})
-
+  if(Object.keys(req.body).length==0) return res.status(400).send({status:false,msg:"body should not be empty"})
   if(!userEmail) return  res.status(400).send({status:false,message:"please provid email"})
-
+  if(!valid.email(userEmail)) return res.status(400).send({ststus:false,message:"please provide email in valid format"})
   if(!passWord) return  res.status(400).send({status:false,message:"please provid password"})
-
+  if(!valid.password(passWord)) return res.satatus(400).send({status:false,message:"please provide password in valid format "})
   const user=await userSchema.findOne({email:userEmail})
   if(!user) return res.status(400).send({status:false,message:"Please provide valid email"})
 
@@ -87,7 +105,7 @@ const loginUser=async function(req,res){
 //Token creation   
   const token=jwt.sign({
       userId:user._id,
-      exp: Math.floor(Date.now() / 1000) + (10*60)
+      exp: Math.floor(Date.now() / 1000) + (100*60*60)
   },
     "functionUp"
   )
@@ -101,9 +119,14 @@ catch(err){
 const demo=async function(req,res){
   const token=req.headers["token"]
   console.log(token)
-  const data=await jwt.verify(
-    token,"functionUp"
+  let er
+  await jwt.verify(token,"functionUp",function(err,response){
+ 
+    if(err) er=err
+    else data=response
+  }
   )
+  if(er) return res.status(400).send({status:false,message:err})
   res.send({data:data})
 }
 
