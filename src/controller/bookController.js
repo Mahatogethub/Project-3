@@ -18,7 +18,7 @@ const createBook = async function (req, res) {
         if (!data.userId) return res.status(400).send({ status: false, message: "userId is mandetory" })
         if (!ObjectId.isValid(data.userId)) return res.status(400).send({ status: false, message: "userId is not object type" })
         if (!data.ISBN) return res.status(400).send({ status: false, message: "ISBN is mandetory" })
-        if (!valid.isbn(isbn)) return res.status(400).send({ status: false, message: "please provide valid ISBN number" })
+        if (!valid.isbn(data.ISBN)) return res.status(400).send({ status: false, message: "please provide valid ISBN number" })
         if (!data.category) return res.status(400).send({ status: false, message: "category is mandetory" })
         if (!data.subcategory) return res.status(400).send({ status: false, message: "subcategory is mandetory" })
         if (!data.releasedAt) return res.status(400).send({ status: false, message: "releasedAt is mandetory" })
