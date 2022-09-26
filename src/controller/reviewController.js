@@ -4,7 +4,7 @@ const bookModel = require('../model/bookModel')
 const { valid } = require("./validation")
 const ObjectId = mongoose.Types.ObjectId
 
-
+// =========================================== create review ==================================================
 const createReview = async function (req, res) {
 
     try {
@@ -47,9 +47,7 @@ const createReview = async function (req, res) {
 }
 
 
-
-
-// update review
+//  ============================================= update review ===================================================
 
 const updateReview = async function (req, res) {
     try {
@@ -63,8 +61,6 @@ const updateReview = async function (req, res) {
         if (!ObjectId.isValid(bookId)) return res.status(400).send({ status: false, message: "bookId is not a type of ObjectId" })
         if (!ObjectId.isValid(reviewId)) return res.status(400).send({ status: false, message: "reviewId is not a type of ObjectId" })
 
-
-
         const bookByBookId = await bookModel.findOne({ _id: bookId, isDeleted: false })
         if (!bookByBookId) return res.status(404).send({ staus: false, message: "no such book exist with this Id" })
 
@@ -76,6 +72,8 @@ const updateReview = async function (req, res) {
         const alreadyReviewed = await reviewModel.findOne({ _id: reviewId, bookId: bookId })
 
         if (!alreadyReviewed) return res.status(400).send({ status: false, message: "no review is found by you to update, first make a review than update" })
+
+        // check valid input or random input
         let totalLength = Object.keys(req.body).length
         let count = 0
         const { reviewedBy, rating, review } = req.body
@@ -97,7 +95,7 @@ const updateReview = async function (req, res) {
     }
 }
 
-// delete review
+//================================================  delete review =================================================
 
 const deleteReview = async function (req, res) {
     try {
@@ -127,7 +125,7 @@ const deleteReview = async function (req, res) {
 
         const bookdata = await bookModel.findOneAndUpdate({ _id: bookId }, { $inc: { reviews: -1 } }, { new: true })
 
-        return res.status(200).send({ status: true, message: "successfully deleted",old:bookByBookId , data:bookdata})
+        return res.status(200).send({ status: true, message: "successfully deleted"})
     }
     catch (error) {
         return res.status(500).send({ status: false, msg: error.message })
