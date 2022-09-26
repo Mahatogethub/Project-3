@@ -38,13 +38,13 @@ router.put("/books/:bookId",authenticate,authorization,bookController.updateBook
 router.delete("/books/:bookId",authenticate,authorization,bookController.DeleteBook)
 
 // create review
-router.post("/books/:bookId/review",authenticate,authorization,reviewController.createReview)
+router.post("/books/:bookId/review",reviewController.createReview)
 
 // update review
-router.put("/books/:bookId/review/:reviewId",authenticate,authorization,reviewController.updateReview)
+router.put("/books/:bookId/review/:reviewId",reviewController.updateReview)
 
 // delete review
-router.delete("/books/:bookId/review/:reviewId",authenticate,authorization,reviewController.deleteReview)
+router.delete("/books/:bookId/review/:reviewId",reviewController.deleteReview)
 
 // for random request
 router.all("/**", function (req, res) {         
