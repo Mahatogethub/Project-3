@@ -15,7 +15,7 @@ const authenticate = function (req, res, next) {
                 if (error) {
                     return res.status(400).send({ status: false, msg: error });
                 }
-                req.decodedToken = response.userId
+                req["decodedToken"] = response.userId
                 next()
             })
     }
@@ -27,7 +27,8 @@ const authenticate = function (req, res, next) {
 const auth = function (req, res, next) {
     const userId = req.body.userId
     if (!userId) return res.status(400).send({ status: false, message: "userId not present in the body" })
-    if (!userId == req["decodedToken"].userId) return res.status(400).send({ status: false, message: "you are not able to do this task" })
+   
+    if (userId !== req["decodedToken"]) return res.status(400).send({ status: false, message: "you are not able to do this task" })
     next()
 }
 

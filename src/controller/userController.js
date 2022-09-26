@@ -124,14 +124,16 @@ const loginUser=async function(req,res){
   },
     "functionUp"
   )
+  let Token = token
   res.setHeader("x-api-token",token)
-return res.status(200).send({status:true,data:token})
+  let decodedToken=jwt.verify(Token, "functionUp")
+
+return res.status(200).send({status:true,data:token,decodedToken})
 }
 catch(err){
   res.status(500).send({message:"server error",error:err.message})
 }
 }
-
 
 module.exports.loginUser=loginUser
 module.exports.signUp=signUp
