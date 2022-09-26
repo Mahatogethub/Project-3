@@ -77,14 +77,15 @@ const updateReview = async function (req, res) {
         let totalLength = Object.keys(req.body).length
         let count = 0
         const { reviewedBy, rating, review } = req.body
-
+     //actually count of reviewedBy, rating, review increase by 1 if other data is 
+     //provided rather than 3 other then it will so error message
         if (reviewedBy) count++
         if (rating) count++
         if (review) count++
         if (count != totalLength) return res.status(400).send({ status: false, message: "please provide  data among [reviewedBy,rating,review]" })
         const updatedReview = await reviewModel.findOneAndUpdate({ bookId: bookId, _id: reviewId, isDeleted: false }, { $set: input }, { new: true })
         let reviewData = await reviewModel.find({ bookId: bookId })
-
+       //we want only some data rather than meta data therefore we use spread Operator "_doc"
         let data = { ...bookByBookId["_doc"] } // spread data of doc bookByBookId 
         data.reviewsData = reviewData
         return res.status(200).send({ status: true, message: "book list", data })

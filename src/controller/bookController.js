@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const bookModel = require('../model/bookModel')
 const userModel = require('../model/userModel')
-const { valid } = require("./validation")
+const valid = require("./validation")
 const reviewModel = require("../model/reviewModel")
 const ObjectId = mongoose.Types.ObjectId
 
@@ -59,7 +59,8 @@ const getBooks = async function (req, res) {
         let b = Object.keys(req.query).length
         let count = 0
         const { userId, category, subcategory } = req.query
-
+       //actually count of userId, category, subcategory increase by 1 and if other data is 
+     //provided rather than 3 then  it will so error message
         if (userId) count++
         if (category) count++
         if (subcategory) count++
@@ -90,7 +91,6 @@ const getBooks = async function (req, res) {
     }
 }
 
-
 // ============================================== get book by params ============================
 const getBooksByParam = async function (req, res) {
     try {
@@ -111,7 +111,6 @@ const getBooksByParam = async function (req, res) {
         return res.status(500).send({ status: false, message: err.message })
     }
 }
-
 
 
 

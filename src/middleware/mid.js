@@ -24,13 +24,13 @@ const authenticate = function (req, res, next) {
     }
 }
 // create book authorization
-const auth = function (req, res, next) {
-    const userId = req.body.userId
-    if (!userId) return res.status(400).send({ status: false, message: "userId not present in the body" })
+// const auth = function (req, res, next) {
+//     const userId = req.body.userId
+//     if (!userId) return res.status(400).send({ status: false, message: "userId not present in the body" })
    
-    if (userId !== req["decodedToken"]) return res.status(400).send({ status: false, message: "you are not able to do this task" })
-    next()
-}
+//     if (userId !== req["decodedToken"]) return res.status(400).send({ status: false, message: "you are not able to do this task" })
+//     next()
+// }
 
 
 // authorization
@@ -68,4 +68,4 @@ const authorization = async function (req, res, next) {
 
 
 
-module.exports = { authenticate, auth, authorization }
+module.exports = { authenticate, authorization }
